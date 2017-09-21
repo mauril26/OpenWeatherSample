@@ -55,11 +55,6 @@
 
                     <br />
 
-                    <div class="alert alert-danger alert-dismissible" role="alert" id="error">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <strong>Error!</strong>
-                    </div>
-
                     <city-result></city-result>
 
                 </div>
@@ -80,8 +75,37 @@
             <div class="col-md-12 col-sm-6">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <div class="col-md-8">${Name}</div>
-                        <div class="col-md-4">${Temperature}</div>
+                        <div class="row text-center">
+                            <div class="col-md-12">
+                                <h1>${City}</h1>
+                            </div>
+                        </div>
+
+                        <div class="row text-center">
+                            <div class="col-md-12">
+                                <div>${Country}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="row text-center">
+                            <div class="col-md-12">
+                                <h1>${Temperature}</h1>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-4 col-sm-3 col-xs-3 text-left">
+                                <div>${Wind}</div>
+                            </div>
+
+                            <div class="col-md-4 col-sm-6 col-xs-6 text-center">
+                                <div>${Weather}</div>
+                            </div>
+                            
+                            <div class="col-md-4 col-sm-3 col-xs-3 text-right">
+                                <div>${Humidity}</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -118,6 +142,13 @@
 
         <template id="loading-tpl">
             <div class="alert alert-warning" role="alert" id="loading">Loading...</div>
+        </template>
+
+        <template id="error-tpl">
+            <div class="alert alert-danger alert-dismissible" role="alert" id="error">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>Error!</strong>
+            </div>
         </template>
     </body>
 </html>

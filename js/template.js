@@ -18,10 +18,12 @@ export class Template{
     }
 
     setValues(obj) {
+        let regEx="";
         for (var i = 0, len = this._clon.childNodes.length; i < len; i++) {
             for (var [key, value] of Object.entries(obj)) {
                 if (this._clon.childNodes[i].innerHTML != undefined){
-                    this._clon.childNodes[i].innerHTML = this._clon.childNodes[i].innerHTML.replace("${" + key.trim() + "}", value);
+                    regEx = new RegExp("\\$\\{" + key.trim() + "\\}", 'g');
+                    this._clon.childNodes[i].innerHTML = this._clon.childNodes[i].innerHTML.replace(regEx, value);
                 }
             }
         }

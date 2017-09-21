@@ -11,6 +11,7 @@ const geographics     = new Geographics();
 
 const loadingTemplate = new Template("#loading-tpl");
 const resultTpl       = new Template("#city-result-tpl");
+const errorTpl        = new Template("#error-tpl");
 
 function onLoad(){
     let randomCities = geographics.getRandomCoordinate(4);
@@ -31,10 +32,8 @@ function onLoad(){
         })
         .catch(error=> {
             console.log("Error: " + error);
-            Elements.LOADING.style.display = 'none';
-            Elements.ERROR.style.display   = 'block';
             return;
-        }); 
+        });
     }
 }
 
@@ -45,29 +44,33 @@ function searchCity() {
         return;
     }
 
-    resultTpl.detachFromDOM();
+    Template.detachFromDOM("city-result");
 
     loadingTemplate.prepare();
     loadingTemplate.attachToDOM("city-result");
-    
-    Elements.ERROR.style.display = 'none';
 
     const response = weather.searchCityByName(cityName);
 
     response.then(value=> {
         resultTpl.prepare();
         resultTpl.setValues({
-            Name: value.cityName,
-            Temperature: value.cityTemperature
+            City:        value.cityName,
+            Country:     value.countryName,
+            Temperature: value.cityTemperature,
+            Weather:     value.cityWeather,
+            Wind:        value.cityWind,
+            Humidity:    value.cityHumidity
         });
-        
+
         loadingTemplate.detachFromDOM();
         resultTpl.attachToDOM("city-result");
     })
     .catch(error => {
         console.log(error);
-        Elements.ERROR.style.display = 'block';
-        Template.detachFromDOM("city-result");
+
+        errorTpl.prepare();
+        loadingTemplate.detachFromDOM();
+        errorTpl.attachToDOM("city-result");
     });
 }
 

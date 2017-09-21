@@ -1,4 +1,26 @@
 let URL_BASE = "http://api.openweathermap.org/data/2.5/weather";
+
+let TEMP_UNITS={
+    CELSIUS:   {
+        F: (k) => k - 275.15,
+        U: "ºC" },
+    
+    FARENHEIT: {
+        F: (k) => k * (9/5)-459.67, 
+        U: "ºF" },
+    
+    KELVIN: {
+        F: (k) => k,
+        U: "ºK" }
+}
+
+let MEASURE_SYSTEM = {
+    WIND_SPEED:{
+        METRIC: { F: (s) => s, U: "m/s" },
+        IMPERIAL: { F: (s) => (s / 1609.344) / (1 / 3600), U: "mi/hr" }
+    }
+}
+
 export class WeatherData{
     constructor(){
         this._countryName     = "";
@@ -52,6 +74,29 @@ export class WeatherData{
     }
 }
 
+class WeatherFetcherHandler{
+    constructor(temperatureUnit, measureSystem){
+        this._currentTemperatureUnit = temperatureUnit;
+        this._measureSystem = measureSystem;
+    }
+
+    get(target, name){
+        if (name == "cityTemperature") {
+            return (Math.round(this._currentTemperatureUnit.F(target[name]) * 10) / 10) + " " + this._currentTemperatureUnit.U;
+        }
+
+        if (name == "cityHumidity") {
+            return target[name] + "%";
+        }
+
+        if (name == "cityWind"){
+            return (Math.round(this._measureSystem.F(target[name]) * 10) / 10) + " " + this._measureSystem.U;
+        }
+
+        return target[name];
+    }
+}
+
 export class WeatherFetcher{
     constructor(key){
         this._key = key;
@@ -72,7 +117,10 @@ export class WeatherFetcher{
                     data.cityWeather     = response.weather[0].description;
                     data.cityWind        = response.wind.speed;
                     data.cityHumidity    = response.main.humidity;
-                    resolve(data);
+
+                    const proxyHandler = new WeatherFetcherHandler(TEMP_UNITS.CELSIUS, MEASURE_SYSTEM.WIND_SPEED.METRIC);
+                    const weatherProxy = new Proxy(data, proxyHandler);
+                    resolve(weatherProxy);
                 }
                 else if (request.readyState == XMLHttpRequest.DONE){
                     reject("Error processing request");
