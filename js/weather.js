@@ -1,21 +1,24 @@
-let URL_BASE = "http://api.openweathermap.org/data/2.5/weather";
+var URL_BASE = "http://api.openweathermap.org/data/2.5/weather";
 
-let TEMP_UNITS={
-    CELSIUS:   {
+var TEMP_UNITS = {
+    CELSIUS: {
         F: (k) => k - 275.15,
-        U: "ºC" },
+        U: "ºC"
+    },
     
     FARENHEIT: {
         F: (k) => k * (9/5)-459.67, 
-        U: "ºF" },
+        U: "ºF"
+    },
     
     KELVIN: {
         F: (k) => k,
-        U: "ºK" }
+        U: "ºK"
+    }
 }
 
-let MEASURE_SYSTEM = {
-    WIND_SPEED:{
+var MEASURE_SYSTEM = {
+    WIND_SPEED: {
         METRIC: { F: (s) => s, U: "m/s" },
         IMPERIAL: { F: (s) => (s / 1609.344) / (1 / 3600), U: "mi/hr" }
     }
@@ -144,4 +147,49 @@ export class WeatherFetcher{
         const url = URL_BASE + queryUrl;
         return this.getWeatherData(url);
     }
+}
+
+
+
+
+
+
+
+
+
+
+/************************** */
+
+function WeatherData() {
+    this.countryName     = "";
+    this.cityName        = "";
+    this.cityTemperature = "";
+    this.cityWeather     = "";
+    this.cityWind        = "";
+    this.cityHumidity    = "";
+}
+
+function WeatherFetcherHandler(temperatureUnit, measureSystem){
+    this.currentTemperatureUnit = temperatureUnit;
+    this.measureSystem          = measureSystem;
+
+    this.get = function(target, name){
+        if (name == "cityTemperature") {
+            return (Math.round(this._currentTemperatureUnit.F(target[name]) * 10) / 10) + " " + this._currentTemperatureUnit.U;
+        }
+
+        if (name == "cityHumidity") {
+            return target[name] + "%";
+        }
+
+        if (name == "cityWind") {
+            return (Math.round(this._measureSystem.F(target[name]) * 10) / 10) + " " + this._measureSystem.U;
+        }
+
+        return target[name];
+    }
+}
+
+function WeatherFetcher(key){
+    this.key = key;
 }

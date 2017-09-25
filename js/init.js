@@ -1,17 +1,18 @@
-import * as Elements from 'js/elements.js';
-import { WeatherFetcher, WeatherData } from 'js/weather.js';
-import { Geographics } from 'js/geographics.js';
-import { Template } from 'js/template.js';
-export const API_KEY = '7835cd6083c3ec90d0a2162c49635cc0';
+var Elements = require('js/elements.js');
+var { WeatherFetcher, WeatherData } = require ('js/weather.js');
+var { Geographics } = require('js/geographics.js');
+var { Template } = require ('js/template.js');
+
+var API_KEY = '7835cd6083c3ec90d0a2162c49635cc0';
 
 Elements.CITY_SEARCH_BUTTON.addEventListener('click', searchCity);
 
-const weather         = new WeatherFetcher(API_KEY);
-const geographics     = new Geographics();
+var weather         = new WeatherFetcher(API_KEY);
+var geographics     = new Geographics();
 
-const loadingTemplate = new Template("#loading-tpl");
-const resultTpl       = new Template("#city-result-tpl");
-const errorTpl        = new Template("#error-tpl");
+var loadingTemplate = new Template("#loading-tpl");
+var resultTpl       = new Template("#city-result-tpl");
+var errorTpl        = new Template("#error-tpl");
 
 function onLoad(){
     let randomCities = geographics.getRandomCoordinate(4);
