@@ -28,7 +28,7 @@
                     </button>
                     <a class="navbar-brand" href="#">Weather Sample</a>
                 </div>
-            
+
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
                         <li>
@@ -67,10 +67,6 @@
             </div>
         </div>
 
-        <script>
-            System.import("js/init.js");
-        </script>
-
         <template id="city-result-tpl">
             <div class="col-md-12 col-sm-6">
                 <div class="panel panel-default">
@@ -86,13 +82,13 @@
                                 <div>${Country}</div>
                             </div>
                         </div>
-                        
+
                         <div class="row text-center">
                             <div class="col-md-12">
                                 <h1>${Temperature}</h1>
                             </div>
                         </div>
-                        
+
                         <div class="row">
                             <div class="col-md-4 col-sm-3 col-xs-3 text-left">
                                 <div>${Wind}</div>
@@ -101,7 +97,7 @@
                             <div class="col-md-4 col-sm-6 col-xs-6 text-center">
                                 <div>${Weather}</div>
                             </div>
-                            
+
                             <div class="col-md-4 col-sm-3 col-xs-3 text-right">
                                 <div>${Humidity}</div>
                             </div>
@@ -150,5 +146,9 @@
                 <strong>Error!</strong>
             </div>
         </template>
+
+        <script>
+            System.import("js/init.js");
+        </script> 
     </body>
 </html>
